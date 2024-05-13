@@ -6,32 +6,51 @@
 /*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:50:54 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/11 21:06:21 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/13 20:34:16 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mlx.h"
+#include <stdbool.h>
+#include "./includes/so_long.h"
+#include "./Libft/ft_printf.h"
+#include "./Libft/libft.h"
 
-int main(void)
+static int is_ber_file(const char *argv);
+static void	init_game(t_game *game, char *path);
+
+int	main(int argc, char *argv[])
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-    int		i;
-    int		j;
+	t_game	game;
 
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, 500, 500, "mlx 42");
-	mlx_loop(mlx_ptr);
-    
-    i = 50;
-	while (i < 100)
-	{
-		j = 50;
-		while (j < 100)
-		{
-			mlx_pixel_put(mlx_ptr, win_ptr, i, j, 0x00999999);
-			j++;
-		}
-		i++;
-	}
+	if (argc == 2 && !(is_ber_file(argv[1])))
+		endgame("Can't open file. The format is not supported!", &game, error);
+	else if (argc > 2)
+		endgame("Can't open multiple files!", &game, error);
+	else if (argc == 2 && (is_ber_file(argv[1]))) 
+		init_game(&game, argv[1]);
+	endgame("Please specify file name!", &game, error);
+	return (0);
+}
+
+static void	init_game(t_game *game, char *path)
+{ 
+	init_map(game, path);
+	init_window(game);
+	init_images(game);
+	render_map(game);
+	init_hook(game, KEY_RELEASE, KEY_RELEASE_MASK, key_check);
+	init_hook(game, DESTROY_NOTIFY, NO_EVENT_MASK, red_cross);
+	init_hook(game, EXPOSE, EXPOSURE_MASK, mini_maker);
+	mlx_loop(game->mlx_pointer);
+}
+
+static	int	is_ber_file(const char *argv)
+{
+	char	*string;
+
+	string = ft_strrchr(argv, '.');
+	if (string)
+		return (ft_strcmp(string, ".ber") == 0);
+	return (0);
 }
