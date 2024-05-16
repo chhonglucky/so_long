@@ -13,7 +13,18 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+typedef struct s_info {
+    t_map *map;
 
+}   t_info;
+
+typedef struct s_map {
+    int row;
+    int col;
+    int error;
+}   t_map;
+
+#define W_KEY 
 
 
 #endif
