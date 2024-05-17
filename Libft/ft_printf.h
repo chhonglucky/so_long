@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 17:04:09 by chanhhon          #+#    #+#             */
-/*   Updated: 2023/12/27 16:47:56 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/17 14:01:59 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_PRINTF_H
 
 # include <stdarg.h>
-# include "../Libft/libft.h"
+# include "libft.h"
 
 int		ft_printf(const char *str, ...);
 int		ft_format(va_list args, const char *formats);

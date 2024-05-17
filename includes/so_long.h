@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 20:22:42 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/13 20:23:11 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:12:51 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ typedef struct s_map {
     int error;
 }   t_map;
 
-#define W_KEY 
-
+# define KEY_ESC		53
+# define W_KEY			13
+# define A_KEY			0
+# define S_KEY			1
+# define D_KEY			2
 
 #endif

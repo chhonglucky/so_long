@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:50:54 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/13 20:34:16 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/17 14:25:46 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
+#include "./mlx/mlx.h"
 #include "./includes/so_long.h"
 #include "./Libft/ft_printf.h"
 #include "./Libft/libft.h"

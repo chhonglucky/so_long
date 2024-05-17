@@ -1,26 +1,14 @@
 #include <stdio.h>
 #include <string.h>
-static	int	is_ber_file(const char *argv);
+#include "./mlx/mlx.h"
+
 
 int main(int argc, char **argv)
 {
+	void *mlx_ptr;
+	void *win_ptr;
 
-	if (argc == 2 && !(is_ber_file(argv[1])))
-		printf("Can't open file. The format is not supported!\n");
-	else if (argc != 2)
-		printf("input format must be \".so_long [~.ber]\"\n");
-	else if (argc == 2 && (is_ber_file(argv[1]))) 
-		printf("file format is \".ber\"\n");
-}
-
-
-
-static	int	is_ber_file(const char *argv)
-{
-	char	*string;
-
-	string = strrchr(argv, '.');
-	if (string)
-		return (strcmp(string, ".ber") == 0);
-	return (0);
+	mlx_ptr = mlx_init();
+	win_ptr = mlx_new_window(mlx_ptr, 500, 500, "mlx 42");
+	mlx_loop(mlx_ptr);
 }

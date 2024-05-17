@@ -6,7 +6,7 @@
 /*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:56:42 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/10 14:47:23 by hongchanhye      ###   ########.fr       */
+/*   Updated: 2024/05/17 14:26:10 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 # include <string.h>
 # include <fcntl.h>
 # include <errno.h>
-# include "ft_printf/includes/ft_printf.h"
+# include "./Libft/ft_printf.h"
+# include "./mlx/mlx.h"
 
 void	unix_error(char *msg);
 pid_t	shell_fork(void);
