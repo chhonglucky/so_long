@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   csfunc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
+/*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:56:42 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/17 14:26:10 by hongchanhye      ###   ########.fr       */
+/*   Updated: 2024/05/19 21:57:01 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int		shell_open(const char *pathname, int flags, mode_t mode);
 void	shell_close(int fd);
 int		shell_dup2(int fd1, int fd2);
 void	shell_pipe(int fd[2]);
+void	*shell_malloc(size_t size);
 
 #endif
