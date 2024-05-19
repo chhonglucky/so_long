@@ -6,7 +6,7 @@
 /*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 20:22:42 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/17 13:12:51 by hongchanhye      ###   ########.fr       */
+/*   Updated: 2024/05/18 20:35:36 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_map {
     int error;
 }   t_map;
 
-# define KEY_ESC		53
+# define ESC_KEY		53
 # define W_KEY			13
 # define A_KEY			0
 # define S_KEY			1
