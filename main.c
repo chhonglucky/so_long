@@ -6,7 +6,7 @@
 /*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:50:54 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/19 22:40:39 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/20 20:37:40 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 #include "./Libft/libft.h"
 #include "./Libft/get_next_line.h"
 #include "csfunc.h"
+#include <stdbool.h>
 
 
 static	int	is_ber_file(const char *argv);
+void	check_map(char *filename);
 void	read_map(t_game *game, char *filename);
 char	*ft_strdup_without_newline(char *str);
 char	*ft_strjoin_without_newline(char *str1, char *str2);
@@ -34,11 +36,35 @@ int	main(int argc, char *argv[])
 		unix_error("Input format : ./so_long [MAP_FILE.ber]\n");
 	game.img = (t_img *)shell_malloc(sizeof(t_img));
 	game.map = (t_map *)shell_malloc(sizeof(t_map));
+	game.char_xy = (t_char_xy *)shell_malloc(sizeof(t_char_xy));
+	check_map(argv[1]);
 	read_map(&game, argv[1]);
 	init_img(&game);
 	setting_img(&game);
+	// mlx_hook(game.win_ptr, X_EVENT_KEY_EXIT, 0, &keyboard, &game);
 	mlx_loop(game.mlx_ptr);
 }
+
+// void	keyboard(int keycode, t_game *game)
+// {
+	
+// }
+
+// int	is_collision(t_game *game, int dir)
+// {
+// 	int		x;
+// 	int		y;
+// 	char	c;
+
+// 	x = game->dir2coord[dir].x;
+// 	y = game->dir2coord[dir].y;
+// 	c = game->map->data[col * game->map->row + row];
+// 	if (c == '1')
+// 		return (true);
+// 	else if (c == 'E' && !game->flag->collect_all_coin)
+// 		return (true);
+// 	return (false);
+// }
 
 static	int	is_ber_file(const char *argv)
 {
@@ -48,6 +74,11 @@ static	int	is_ber_file(const char *argv)
 	if (string)
 		return (ft_strcmp(string, ".ber") == 0);
 	return (0);
+}
+
+void	check_map(char *filename)
+{
+	
 }
 
 void	read_map(t_game *game, char *filename)
@@ -71,19 +102,20 @@ void	read_map(t_game *game, char *filename)
 		}
 	}
 	close(fd);
+	printf("read_map input data : %s\n", game->map->data);
 }
 
 char	*ft_strdup_without_newline(char *str)
 {
-	if (str[ft_strlen(str) - 2] == '\n')
-		str[ft_strlen(str) - 2] = '\0';
+	if (str[ft_strlen(str) - 1] == '\n')
+		str[ft_strlen(str) - 1] = '\0';
 	return (ft_strdup(str));
 }
 
 char	*ft_strjoin_without_newline(char *str1, char *str2)
 {
-	if (str2[ft_strlen(str2) - 2] == '\n')
-		str2[ft_strlen(str2) - 2] = '\0';
+	if (str2[ft_strlen(str2) - 1] == '\n')
+		str2[ft_strlen(str2) - 1] = '\0';
 	return (ft_strjoin(str1, str2));
 }
 
@@ -93,7 +125,8 @@ void	init_img(t_game *game)
 	int	img_width;
 
 	game->mlx_ptr = mlx_init();
-	game->win_ptr = mlx_new_window(game->mlx_ptr, 1200, 1200, "my_mlx");
+	game->win_ptr = mlx_new_window(game->mlx_ptr, 64 * game->map->row, 64 * game->map->col, "so_long_chanhhon");
+	// game->win_ptr = mlx_new_window(game->mlx_ptr, 2000, 2000, "so_long_chanhhon");
 	game->img->ball = mlx_xpm_file_to_image(game->mlx_ptr, "./textures/ball.xpm", &img_width, &img_height);
 	game->img->ladder = mlx_xpm_file_to_image(game->mlx_ptr, "./textures/ladder.xpm", &img_width, &img_height);
 	game->img->player_E = mlx_xpm_file_to_image(game->mlx_ptr, "./textures/player_E.xpm", &img_width, &img_height);
@@ -118,19 +151,22 @@ void	setting_img(t_game *game)
 		{
 			if (game->map->data[col * game->map->row + row] == '1')
 			{
-				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile1, row * 64, col * 64);
 			}
 			else if (game->map->data[col * game->map->row + row] == 'C')
 			{
+				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->ball, row * 64, col * 64);
 			}
 			else if (game->map->data[col * game->map->row + row] == 'P')
 			{
-				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->player_S, row * 64, col * 64);
+				// char_xy_init(game->char_xy, row, col);
+				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
+				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->player_S, row * 64, (col - 1) * 64);
 			}
 			else if (game->map->data[col * game->map->row + row] == 'E')
 			{
+				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->ladder, row * 64, col * 64);
 			}
 			else

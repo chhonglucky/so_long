@@ -6,7 +6,7 @@
 /*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 20:22:42 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/19 21:01:57 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/20 18:06:23 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # define X_EVENT_KEY_PRESS 2
 # define X_EVENT_KEY_EXIT 3
+
+# include <stdbool.h>
 
 typedef struct s_map {
 	int		row;
@@ -34,11 +36,22 @@ typedef struct s_img {
 	void	*tile1;
 }				t_img;
 
+typedef struct s_flag {
+	bool	collect_all_coin;
+}				t_flag;
+
+typedef struct s_char_xy {
+	int	x;
+	int	y;
+}				t_char_xy;
+
 typedef struct s_game {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	t_map	*map;
-	t_img	*img;
+	void		*mlx_ptr;
+	void		*win_ptr;
+	t_map		*map;
+	t_img		*img;
+	t_char_xy	*char_xy;
+	t_flag		*flag;
 }				t_game;
 
 # define ESC_KEY		53
