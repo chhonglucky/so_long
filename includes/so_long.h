@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 20:22:42 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/20 18:06:23 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/21 20:58:24 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_img {
 
 typedef struct s_flag {
 	bool	collect_all_coin;
+	bool	game_start;
 }				t_flag;
 
 typedef struct s_char_xy {

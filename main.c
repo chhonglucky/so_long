@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:50:54 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/20 20:37:40 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/21 22:00:55 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,19 @@
 #include <stdbool.h>
 
 
+void	keyboard(int keycode, t_game *game);
+void	move(t_game *game, int x, int y);
+void	close_win(t_game *game);
+int		is_collision(t_game *game, int dir);
 static	int	is_ber_file(const char *argv);
 void	check_map(char *filename);
 void	read_map(t_game *game, char *filename);
 char	*ft_strdup_without_newline(char *str);
 char	*ft_strjoin_without_newline(char *str1, char *str2);
 void	init_img(t_game *game);
+void	init_flag(t_game *game);
 void	setting_img(t_game *game);
-
+void	char_xy_init(t_char_xy *char_xy, int row, int col);
 
 int	main(int argc, char *argv[])
 {
@@ -37,18 +42,41 @@ int	main(int argc, char *argv[])
 	game.img = (t_img *)shell_malloc(sizeof(t_img));
 	game.map = (t_map *)shell_malloc(sizeof(t_map));
 	game.char_xy = (t_char_xy *)shell_malloc(sizeof(t_char_xy));
-	check_map(argv[1]);
+	game.flag = (t_flag *)shell_malloc(sizeof(t_flag));
+	// check_map(argv[1]);
 	read_map(&game, argv[1]);
 	init_img(&game);
+	init_flag(&game);
 	setting_img(&game);
-	// mlx_hook(game.win_ptr, X_EVENT_KEY_EXIT, 0, &keyboard, &game);
+	mlx_hook(game.win_ptr, X_EVENT_KEY_EXIT, 0, &keyboard, &game);
 	mlx_loop(game.mlx_ptr);
 }
 
-// void	keyboard(int keycode, t_game *game)
-// {
-	
-// }
+void	keyboard(int keycode, t_game *game)
+{
+	if (keycode == W_KEY)
+		move(game, 0, 1);
+	else if (keycode == S_KEY)
+		move(game, 0, -1);
+	else if (keycode == A_KEY)
+		move(game, -1, 0);
+	else if (keycode == D_KEY)
+		move(game, 1, 0);
+	else if (keycode == ESC_KEY)
+		close_win(game);
+	setting_img(game);
+}
+
+void	move(t_game *game, int x, int y)
+{
+	game->char_xy->x += x;
+	game->char_xy->y += y;
+}
+
+void	close_win(t_game *game)
+{
+	mlx_destroy_window(game->mlx_ptr, game->win_ptr);
+}
 
 // int	is_collision(t_game *game, int dir)
 // {
@@ -137,6 +165,11 @@ void	init_img(t_game *game)
 	game->img->tile1 = mlx_xpm_file_to_image(game->mlx_ptr, "./textures/tile01.xpm", &img_width, &img_height);
 }
 
+void	init_flag(t_game *game)
+{
+	game->flag->collect_all_coin = false;
+	game->flag->game_start = true;
+}
 
 void	setting_img(t_game *game)
 {
@@ -160,7 +193,8 @@ void	setting_img(t_game *game)
 			}
 			else if (game->map->data[col * game->map->row + row] == 'P')
 			{
-				// char_xy_init(game->char_xy, row, col);
+				if (game->flag->game_start == true)
+					char_xy_init(game->char_xy, row, col);
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->player_S, row * 64, (col - 1) * 64);
 			}
@@ -177,4 +211,10 @@ void	setting_img(t_game *game)
 		}
 		col++;
 	}
+}
+
+void	char_xy_init(t_char_xy *char_xy, int row, int col)
+{
+	char_xy->x = row;
+	char_xy->y = col;
 }
