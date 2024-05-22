@@ -6,7 +6,7 @@
 /*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:50:54 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/21 22:00:55 by hongchanhye      ###   ########.fr       */
+/*   Updated: 2024/05/22 23:56:02 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 #include <stdbool.h>
 
 
-void	keyboard(int keycode, t_game *game);
+int		key_hook(int keycode, t_game *game);
 void	move(t_game *game, int x, int y);
 void	close_win(t_game *game);
-int		is_collision(t_game *game, int dir);
+// int		is_collision(t_game *game, int dir);
 static	int	is_ber_file(const char *argv);
 void	check_map(char *filename);
 void	read_map(t_game *game, char *filename);
@@ -31,7 +31,7 @@ char	*ft_strjoin_without_newline(char *str1, char *str2);
 void	init_img(t_game *game);
 void	init_flag(t_game *game);
 void	setting_img(t_game *game);
-void	char_xy_init(t_char_xy *char_xy, int row, int col);
+void	char_xy_init(t_game *game, int row, int col);
 
 int	main(int argc, char *argv[])
 {
@@ -48,23 +48,26 @@ int	main(int argc, char *argv[])
 	init_img(&game);
 	init_flag(&game);
 	setting_img(&game);
-	mlx_hook(game.win_ptr, X_EVENT_KEY_EXIT, 0, &keyboard, &game);
+	mlx_hook(game.win_ptr, X_EVENT_KEY_EXIT, 0, &key_hook, &game);
+	mlx_key_hook(game.win_ptr, key_hook, &game);
 	mlx_loop(game.mlx_ptr);
+	return (1);
 }
 
-void	keyboard(int keycode, t_game *game)
+int	key_hook(int keycode, t_game *game)
 {
-	if (keycode == W_KEY)
-		move(game, 0, 1);
-	else if (keycode == S_KEY)
+	if (keycode == W)
 		move(game, 0, -1);
-	else if (keycode == A_KEY)
+	else if (keycode == S)
+		move(game, 0, 1);
+	else if (keycode == A)
 		move(game, -1, 0);
-	else if (keycode == D_KEY)
+	else if (keycode == D)
 		move(game, 1, 0);
-	else if (keycode == ESC_KEY)
+	else if (keycode == ESC)
 		close_win(game);
 	setting_img(game);
+	return (keycode);
 }
 
 void	move(t_game *game, int x, int y)
@@ -131,6 +134,7 @@ void	read_map(t_game *game, char *filename)
 	}
 	close(fd);
 	printf("read_map input data : %s\n", game->map->data);
+	printf("read_map row : %d, col : %d\n", game->map->row, game->map->col);
 }
 
 char	*ft_strdup_without_newline(char *str)
@@ -171,6 +175,15 @@ void	init_flag(t_game *game)
 	game->flag->game_start = true;
 }
 
+// int		print_map(t_game *game)
+// {
+// 	int	row;
+// 	int	col;
+
+	
+// }
+
+
 void	setting_img(t_game *game)
 {
 	int		col;
@@ -194,9 +207,9 @@ void	setting_img(t_game *game)
 			else if (game->map->data[col * game->map->row + row] == 'P')
 			{
 				if (game->flag->game_start == true)
-					char_xy_init(game->char_xy, row, col);
+					char_xy_init(game, row, col);
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
-				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->player_S, row * 64, (col - 1) * 64);
+				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->player_S, game->char_xy->x * 64, (game->char_xy->y - 1) * 64);
 			}
 			else if (game->map->data[col * game->map->row + row] == 'E')
 			{
@@ -213,8 +226,10 @@ void	setting_img(t_game *game)
 	}
 }
 
-void	char_xy_init(t_char_xy *char_xy, int row, int col)
+void	char_xy_init(t_game *game, int row, int col)
 {
-	char_xy->x = row;
-	char_xy->y = col;
+	game->char_xy->x = row;
+	game->char_xy->y = col;
+	game->flag->game_start = false;
+	
 }

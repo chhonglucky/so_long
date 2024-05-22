@@ -6,7 +6,7 @@
 /*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 20:22:42 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/21 20:58:24 by hongchanhye      ###   ########.fr       */
+/*   Updated: 2024/05/22 23:50:36 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ typedef struct s_game {
 	t_flag		*flag;
 }				t_game;
 
-# define ESC_KEY		53
-# define W_KEY			13
-# define A_KEY			0
-# define S_KEY			1
-# define D_KEY			2
+# define ESC		53
+# define W			13
+# define A			0
+# define S			1
+# define D			2
 
 #endif

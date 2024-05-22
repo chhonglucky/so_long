@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   temp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 14:44:52 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/19 22:28:07 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/22 23:40:51 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,23 @@
 #include <string.h>
 #include "./mlx/mlx.h"
 
+typedef struct	s_vars {
+	void	*mlx;
+	void	*win;
+}				t_vars;
 
-int main(int argc, char **argv)
+int	key_hook(int keycode, t_vars *vars)
 {
-	void *mlx_ptr;
-	void *win_ptr;
-	void *img_ptr;
-	unsigned int *data;
+	printf("Hello from key_hook!\n");
+	return (0);
+}
 
-	int img_width;
-	int img_height;
-	// int bpp;
-	// int size_l;
-	// int endian;
+int	main(void)
+{
+	t_vars	vars;
 
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, 500, 500, "mlx 42");
-	img_ptr = mlx_xpm_file_to_image(mlx_ptr, "./textures/tile01.xpm", &img_width, &img_height);
-	// data = (unsigned int *)mlx_get_data_addr(img_ptr, &bpp, &size_l, &endian);
-	mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 64, 64);
-	mlx_loop(mlx_ptr);
+	vars.mlx = mlx_init();
+	vars.win = mlx_new_window(vars.mlx, 640, 480, "Hello world!");
+	mlx_key_hook(vars.win, key_hook, &vars);
+	mlx_loop(vars.mlx);
 }
