@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
+/*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:50:54 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/23 14:39:15 by hongchanhye      ###   ########.fr       */
+/*   Updated: 2024/05/23 22:20:44 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ void	move_W(t_game *game);
 void	move_A(t_game *game);
 void	move_S(t_game *game);
 void	move_D(t_game *game);
-void	close_win(t_game *game);
-// int		is_collision(t_game *game, int dir);
+int		close_game(t_game *game);
 static	int	is_ber_file(const char *argv);
 void	check_map(char *filename);
 void	read_map(t_game *game, char *filename);
@@ -35,6 +34,8 @@ char	*ft_strjoin_without_newline(char *str1, char *str2);
 void	init_img(t_game *game);
 void	init_flag(t_game *game);
 void	setting_img(t_game *game);
+void	setting_img_item(t_game *game);
+void	check_end(t_game *game);
 void	char_xy_init(t_game *game, int row, int col);
 
 int	main(int argc, char *argv[])
@@ -43,16 +44,16 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2)
 		unix_error("Input format : ./so_long [MAP_FILE.ber]\n");
+	// check_map(argv[1]);
 	game.img = (t_img *)shell_malloc(sizeof(t_img));
 	game.map = (t_map *)shell_malloc(sizeof(t_map));
 	game.char_xy = (t_char_xy *)shell_malloc(sizeof(t_char_xy));
 	game.flag = (t_flag *)shell_malloc(sizeof(t_flag));
-	// check_map(argv[1]);
 	read_map(&game, argv[1]);
 	init_img(&game);
 	init_flag(&game);
 	setting_img(&game);
-	// mlx_hook(game.win_ptr, X_EVENT_KEY_EXIT, 0, &key_hook, &game);
+	mlx_hook(game.win_ptr, X_EVENT_EXIT, 0, close_game, &game);
 	mlx_key_hook(game.win_ptr, &key_hook, &game);
 	mlx_loop(game.mlx_ptr);
 	return (1);
@@ -69,7 +70,7 @@ int	key_hook(int keycode, t_game *game)
 	else if (keycode == D)
 		move_D(game);
 	else if (keycode == ESC)
-		close_win(game);
+		close_game(game);
 	setting_img(game);
 	return (keycode);
 }
@@ -78,6 +79,7 @@ void	move(t_game *game, int x, int y)
 {
 	game->char_xy->x += x;
 	game->char_xy->y += y;
+	game->char_xy->distance += ft_abs(x) + ft_abs(y);
 }
 
 void	move_W(t_game *game)
@@ -88,13 +90,18 @@ void	move_W(t_game *game)
 	temp_x = game->char_xy->x + 0;
 	temp_y = game->char_xy->y - 1;
 	game->img->player = game->img->player_N;
-	printf("temp_x : %d, temp_y : %d\n", temp_x, temp_y);
-	if (game->map->data[temp_y * game->map->row + temp_x] == 1) {
+	if (game->map->data[temp_y * game->map->row + temp_x] == '1')
 		move(game, 0, 0);
-		printf("wall ahead\n");
-	}
 	else
+	{
+		if (game->map->data[temp_y * game->map->row + temp_x] == 'C')
+		{
+			game->char_xy->char_coin++;
+			printf("game->char_xy->char_coin : %d\n", game->char_xy->char_coin);
+			game->map->data[temp_y * game->map->row + temp_x] = 0;
+		}
 		move(game, 0, -1);
+	}
 }
 void	move_A(t_game *game)
 {
@@ -104,13 +111,18 @@ void	move_A(t_game *game)
 	temp_x = game->char_xy->x - 1;
 	temp_y = game->char_xy->y + 0;
 	game->img->player = game->img->player_W;
-	printf("temp_x : %d, temp_y : %d\n", temp_x, temp_y);
-	if (game->map->data[temp_y * game->map->row + temp_x] == 1){
+	if (game->map->data[temp_y * game->map->row + temp_x] == '1')
 		move(game, 0, 0);
-		printf("wall ahead\n");
-	}
 	else
+	{
+		if (game->map->data[temp_y * game->map->row + temp_x] == 'C')
+		{
+			game->char_xy->char_coin++;
+			printf("game->char_xy->char_coin : %d\n", game->char_xy->char_coin);
+			game->map->data[temp_y * game->map->row + temp_x] = 0;
+		}
 		move(game, -1, 0);
+	}
 }
 void	move_S(t_game *game)
 {
@@ -120,14 +132,18 @@ void	move_S(t_game *game)
 	temp_x = game->char_xy->x + 0;
 	temp_y = game->char_xy->y + 1;
 	game->img->player = game->img->player_S;
-	printf("temp_x : %d, temp_y : %d\n", temp_x, temp_y);
-	if (game->map->data[temp_y * game->map->row + temp_x] == 1){
+	if (game->map->data[temp_y * game->map->row + temp_x] == '1')
 		move(game, 0, 0);
-		printf("wall ahead\n");
-	}
 	else
+	{
+		if (game->map->data[temp_y * game->map->row + temp_x] == 'C')
+		{
+			game->char_xy->char_coin++;
+			printf("game->char_xy->char_coin : %d\n", game->char_xy->char_coin);
+			game->map->data[temp_y * game->map->row + temp_x] = 0;
+		}
 		move(game, 0, 1);
-}
+	}}
 void	move_D(t_game *game)
 {
 	int	temp_x;
@@ -136,35 +152,34 @@ void	move_D(t_game *game)
 	temp_x = game->char_xy->x + 1;
 	temp_y = game->char_xy->y + 0;
 	game->img->player = game->img->player_E;
-	printf("temp_x : %d, temp_y : %d\n", temp_x, temp_y);
-	if (game->map->data[temp_y * game->map->row + temp_x] == 1){
+	if (game->map->data[temp_y * game->map->row + temp_x] == '1')
 		move(game, 0, 0);
-		printf("wall ahead\n");
-	}
 	else
+	{
+		if (game->map->data[temp_y * game->map->row + temp_x] == 'C')
+		{
+			game->char_xy->char_coin++;
+			printf("game->char_xy->char_coin : %d\n", game->char_xy->char_coin);
+			game->map->data[temp_y * game->map->row + temp_x] = 0;
+		}
 		move(game, 1, 0);
+	}
 }
 
-void	close_win(t_game *game)
+int		close_game(t_game *game)
 {
-	mlx_destroy_window(game->mlx_ptr, game->win_ptr);
+	// mlx_destroy_image(game->mlx_ptr, game->img->ball);
+	// mlx_destroy_image(game->mlx_ptr, game->img->ladder);
+	// mlx_destroy_image(game->mlx_ptr, game->img->player);
+	// mlx_destroy_image(game->mlx_ptr, game->img->player_E);
+	// mlx_destroy_image(game->mlx_ptr, game->img->player_N);
+	// mlx_destroy_image(game->mlx_ptr, game->img->player_S);
+	// mlx_destroy_image(game->mlx_ptr, game->img->player_W);
+	// mlx_destroy_image(game->mlx_ptr, game->img->tile0);
+	// mlx_destroy_image(game->mlx_ptr, game->img->tile1);
+	// mlx_destroy_window(game->mlx_ptr, game->win_ptr);
+	exit(0);
 }
-
-// int	is_collision(t_game *game, int dir)
-// {
-// 	int		x;
-// 	int		y;
-// 	char	c;
-
-// 	x = game->dir2coord[dir].x;
-// 	y = game->dir2coord[dir].y;
-// 	c = game->map->data[col * game->map->row + row];
-// 	if (c == '1')
-// 		return (true);
-// 	else if (c == 'E' && !game->flag->collect_all_coin)
-// 		return (true);
-// 	return (false);
-// }
 
 static	int	is_ber_file(const char *argv)
 {
@@ -190,6 +205,7 @@ void	read_map(t_game *game, char *filename)
 	line = get_next_line(fd);
 	game->map->col = 0;
 	game->map->row = ft_strlen(line) - 1;
+	game->map->coin_cnt = 0;
 	game->map->data = ft_strdup_without_newline(line);
 	free(line);
 	while (line)
@@ -202,8 +218,6 @@ void	read_map(t_game *game, char *filename)
 		}
 	}
 	close(fd);
-	printf("read_map input data : %s\n", game->map->data);
-	printf("read_map row : %d, col : %d\n", game->map->row, game->map->col);
 }
 
 char	*ft_strdup_without_newline(char *str)
@@ -227,7 +241,6 @@ void	init_img(t_game *game)
 
 	game->mlx_ptr = mlx_init();
 	game->win_ptr = mlx_new_window(game->mlx_ptr, 64 * game->map->row, 64 * game->map->col, "so_long_chanhhon");
-	// game->win_ptr = mlx_new_window(game->mlx_ptr, 2000, 2000, "so_long_chanhhon");
 	game->img->ball = mlx_xpm_file_to_image(game->mlx_ptr, "./textures/ball.xpm", &img_width, &img_height);
 	game->img->ladder = mlx_xpm_file_to_image(game->mlx_ptr, "./textures/ladder.xpm", &img_width, &img_height);
 	game->img->player_E = mlx_xpm_file_to_image(game->mlx_ptr, "./textures/player_E.xpm", &img_width, &img_height);
@@ -245,14 +258,48 @@ void	init_flag(t_game *game)
 	game->flag->game_start = true;
 }
 
-// int		print_map(t_game *game)
+// void	setting_img(t_game *game)
 // {
-// 	int	row;
-// 	int	col;
-
-	
+// 	int		col;
+// 	int		row;
+// 	col = 0;
+// 	while (col < game->map->col)
+// 	{
+// 		row = 0;
+// 		while (row < game->map->row)
+// 		{
+// 			if (game->map->data[col * game->map->row + row] == '1')
+// 			{
+// 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile1, row * 64, col * 64);
+// 			}
+// 			else if (game->map->data[col * game->map->row + row] == 'C')
+// 			{
+// 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
+// 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->ball, row * 64, col * 64);
+// 			}
+// 			else if (game->map->data[col * game->map->row + row] == 'P')
+// 			{
+// 				if (game->flag->game_start == true)
+// 					char_xy_init(game, row, col);
+// 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
+// 				// mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->player_S, game->char_xy->x * 64, (game->char_xy->y - 1) * 64);
+// 			}
+// 			else if (game->map->data[col * game->map->row + row] == 'E')
+// 			{
+// 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
+// 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->ladder, row * 64, col * 64);
+// 			}
+// 			else
+// 			{
+// 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
+// 			}
+// 			row++;
+// 		}
+// 		col++;
+// 	}
+// 	mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->player, game->char_xy->x * 64, (game->char_xy->y - 1) * 64);
+// 	check_end(game);
 // }
-
 
 void	setting_img(t_game *game)
 {
@@ -266,41 +313,59 @@ void	setting_img(t_game *game)
 		while (row < game->map->row)
 		{
 			if (game->map->data[col * game->map->row + row] == '1')
-			{
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile1, row * 64, col * 64);
-			}
-			else if (game->map->data[col * game->map->row + row] == 'C')
-			{
-				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
-				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->ball, row * 64, col * 64);
-			}
-			else if (game->map->data[col * game->map->row + row] == 'P')
-			{
-				if (game->flag->game_start == true)
-					char_xy_init(game, row, col);
-				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
-				// mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->player_S, game->char_xy->x * 64, (game->char_xy->y - 1) * 64);
-			}
-			else if (game->map->data[col * game->map->row + row] == 'E')
-			{
-				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
-				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->ladder, row * 64, col * 64);
-			}
 			else
-			{
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
-			}
 			row++;
 		}
 		col++;
 	}
+	setting_img_item(game);
+}
+
+void	setting_img_item(t_game *game)
+{
+	int	row;
+	int	col;
+
+	col = 0;
+	while (col < game->map->col)
+	{
+		row = 0;
+		while (row < game->map->row)
+		{
+			if (game->map->data[col * game->map->row + row] == 'C')
+				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->ball, row * 64, col * 64);
+			else if (game->map->data[col * game->map->row + row] == 'P')
+				if (game->flag->game_start == true)
+					char_xy_init(game, row, col);
+			else if (game->map->data[col * game->map->row + row] == 'E')
+				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->ladder, row * 64, col * 64);
+		}
+	}
 	mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->player, game->char_xy->x * 64, (game->char_xy->y - 1) * 64);
+	check_end(game);
+}
+
+void	check_end(t_game *game)
+{
+	int	char_x;
+	int	char_y;
+
+	char_x = game->char_xy->x;
+	char_y = game->char_xy->y;
+	if (game->map->data[char_y * game->map->row + char_x] == 'E' && (game->map->coin_cnt == game->char_xy->char_coin))
+	{
+		printf("game clear!\n");
+		close_game(game);
+	}
 }
 
 void	char_xy_init(t_game *game, int row, int col)
 {
 	game->char_xy->x = row;
 	game->char_xy->y = col;
+	game->char_xy->distance = 0;
+	game->char_xy->char_coin = 0;
 	game->flag->game_start = false;
-	
 }

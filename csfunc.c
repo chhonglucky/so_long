@@ -6,7 +6,7 @@
 /*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:04:01 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/19 14:44:41 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/23 20:30:34 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,25 @@ int	shell_open(const char *pathname, int flags, mode_t mode)
 		unix_error("Open error");
 	return (rc);
 }
-// open, close, read, write, malloc
 
-int shell_read(int fd, void *buf, size_t count) 
+int	shell_read(int fd, void *buf, size_t count)
 {
-    ssize_t rc;
+	ssize_t	rc;
 
 	rc = read(fd, buf, count);
-    if (rc < 0) 
-	unix_error("Read error");
-    return rc;
+	if (rc < 0)
+		unix_error("Read error");
+	return (rc);
 }
 
-int shell_write(int fd, const void *buf, size_t count) 
+int	shell_write(int fd, const void *buf, size_t count)
 {
-    ssize_t rc;
+	ssize_t	rc;
 
 	rc = write(fd, buf, count);
-    if (rc < 0)
-	unix_error("Write error");
-    return rc;
+	if (rc < 0)
+		unix_error("Write error");
+	return (rc);
 }
 
 void	shell_close(int fd)
@@ -63,12 +62,12 @@ void	shell_close(int fd)
 		unix_error("Close error");
 }
 
-void *shell_malloc(size_t size) 
+void	*shell_malloc(size_t size)
 {
-    void *p;
+	void	*p;
 
-	p  = malloc(size);
-    if (p == NULL)
-	unix_error("Malloc error");
-    return p;
+	p = malloc(size);
+	if (p == NULL)
+		unix_error("Malloc error");
+	return (p);
 }
