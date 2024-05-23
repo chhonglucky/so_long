@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:04:31 by chanhhon          #+#    #+#             */
-/*   Updated: 2023/11/14 19:23:16 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/24 00:26:51 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char			**ft_split(char const *s, char c);
 static char		*ft_strdup_modified(char const *src, char c);
-static size_t	ft_count(char const *s, char c);
+static size_t	ft_count_section(char const *s, char c);
 static void		ft_freeall(char **str, size_t i);
 static char		**ft_assign_data(char **return_array, char const *s, char c);
 
@@ -22,17 +22,18 @@ char	**ft_split(char const *s, char c)
 {
 	char	**return_array;
 
-	return_array = (char **)malloc((ft_count(s, c) + 1) * sizeof(char *));
+	return_array = (char **)malloc((ft_count_section(s, c) + 1)
+			* sizeof(char *));
 	if (return_array == 0)
 		return (0);
 	return_array = ft_assign_data(return_array, s, c);
 	if (return_array == 0)
 		return (0);
-	return_array[ft_count(s, c)] = 0;
+	return_array[ft_count_section(s, c)] = 0;
 	return (return_array);
 }
 
-static size_t	ft_count(char const *s, char c)
+static size_t	ft_count_section(char const *s, char c)
 {
 	size_t	i;
 	size_t	count;
