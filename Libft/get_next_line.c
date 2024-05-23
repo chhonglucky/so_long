@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 16:51:26 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/19 21:04:08 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/24 00:27:15 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	gnl_readline(int fd, t_gnl_list *node, t_gnl_list **start)
 t_gnl_list	*gnl_node_create(int fd, t_gnl_list **start, t_gnl_list *tmp)
 {
 	t_gnl_list	*new;
-	int		i;
+	int			i;
 
 	new = (t_gnl_list *)malloc(sizeof(t_gnl_list));
 	if (new == 0)
@@ -109,8 +109,8 @@ char	*get_next_line(int fd)
 {
 	static t_gnl_list	*start;
 	t_gnl_list			*node;
-	char			*line;
-	int				check;
+	char				*line;
+	int					check;
 
 	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE < 1)
 		return (0);

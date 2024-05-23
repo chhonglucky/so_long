@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:50:54 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/23 22:20:44 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/24 00:09:03 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,13 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2)
 		unix_error("Input format : ./so_long [MAP_FILE.ber]\n");
-	// check_map(argv[1]);
+	// check_map_basic(argv[1]);
 	game.img = (t_img *)shell_malloc(sizeof(t_img));
 	game.map = (t_map *)shell_malloc(sizeof(t_map));
 	game.char_xy = (t_char_xy *)shell_malloc(sizeof(t_char_xy));
 	game.flag = (t_flag *)shell_malloc(sizeof(t_flag));
 	read_map(&game, argv[1]);
+	// check_map_dfs(game);
 	init_img(&game);
 	init_flag(&game);
 	setting_img(&game);
@@ -71,6 +72,7 @@ int	key_hook(int keycode, t_game *game)
 		move_D(game);
 	else if (keycode == ESC)
 		close_game(game);
+	printf("character movement : %d\n", game->char_xy->distance);
 	setting_img(game);
 	return (keycode);
 }
@@ -143,7 +145,9 @@ void	move_S(t_game *game)
 			game->map->data[temp_y * game->map->row + temp_x] = 0;
 		}
 		move(game, 0, 1);
-	}}
+	}
+}
+
 void	move_D(t_game *game)
 {
 	int	temp_x;
@@ -205,7 +209,6 @@ void	read_map(t_game *game, char *filename)
 	line = get_next_line(fd);
 	game->map->col = 0;
 	game->map->row = ft_strlen(line) - 1;
-	game->map->coin_cnt = 0;
 	game->map->data = ft_strdup_without_newline(line);
 	free(line);
 	while (line)
@@ -213,10 +216,10 @@ void	read_map(t_game *game, char *filename)
 		game->map->col++;
 		line = get_next_line(fd);
 		if (line)
-		{
 			game->map->data = ft_strjoin_without_newline(game->map->data, line);
-		}
 	}
+	game->map->coin_cnt = ft_count(game->map->data, 'C');
+	game->map->player_cnt = ft_count(game->map->player_cnt, 'P');
 	close(fd);
 }
 
@@ -337,11 +340,15 @@ void	setting_img_item(t_game *game)
 			if (game->map->data[col * game->map->row + row] == 'C')
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->ball, row * 64, col * 64);
 			else if (game->map->data[col * game->map->row + row] == 'P')
+			{
 				if (game->flag->game_start == true)
 					char_xy_init(game, row, col);
+			}
 			else if (game->map->data[col * game->map->row + row] == 'E')
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->ladder, row * 64, col * 64);
+			row++;
 		}
+		col++;
 	}
 	mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->player, game->char_xy->x * 64, (game->char_xy->y - 1) * 64);
 	check_end(game);

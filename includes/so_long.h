@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 20:22:42 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/23 21:33:05 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/23 23:59:36 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# define X_EVENT_KEY_PRESS 2
-# define X_EVENT_KEY_EXIT 3
-# define X_EVENT_EXIT 17
+# define X_EVENT_EXIT		17
+# define ESC				53
+# define W					13
+# define A					0
+# define S					1
+# define D					2
 
 # include <stdbool.h>
 
@@ -62,10 +65,6 @@ typedef struct s_game {
 	t_flag		*flag;
 }				t_game;
 
-# define ESC		53
-# define W			13
-# define A			0
-# define S			1
-# define D			2
+
 
 #endif
