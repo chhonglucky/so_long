@@ -6,7 +6,7 @@
 /*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 20:22:42 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/23 23:59:36 by hongchanhye      ###   ########.fr       */
+/*   Updated: 2024/05/24 01:48:56 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_map {
 	int		player_cnt;
 	int		exit_cnt;
 	char	*data;
+	char	**data2;
 }				t_map;
 
 typedef struct s_img {
