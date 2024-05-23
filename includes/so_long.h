@@ -6,7 +6,7 @@
 /*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 20:22:42 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/22 23:50:36 by hongchanhye      ###   ########.fr       */
+/*   Updated: 2024/05/23 14:10:36 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_img {
 	void	*player_E;
 	void	*player_S;
 	void	*player_W;
+	void	*player;
 	void	*tile0;
 	void	*tile1;
 }				t_img;

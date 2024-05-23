@@ -6,7 +6,7 @@
 /*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:50:54 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/22 23:56:02 by hongchanhye      ###   ########.fr       */
+/*   Updated: 2024/05/23 14:39:15 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 
 int		key_hook(int keycode, t_game *game);
 void	move(t_game *game, int x, int y);
+void	move_W(t_game *game);
+void	move_A(t_game *game);
+void	move_S(t_game *game);
+void	move_D(t_game *game);
 void	close_win(t_game *game);
 // int		is_collision(t_game *game, int dir);
 static	int	is_ber_file(const char *argv);
@@ -48,8 +52,8 @@ int	main(int argc, char *argv[])
 	init_img(&game);
 	init_flag(&game);
 	setting_img(&game);
-	mlx_hook(game.win_ptr, X_EVENT_KEY_EXIT, 0, &key_hook, &game);
-	mlx_key_hook(game.win_ptr, key_hook, &game);
+	// mlx_hook(game.win_ptr, X_EVENT_KEY_EXIT, 0, &key_hook, &game);
+	mlx_key_hook(game.win_ptr, &key_hook, &game);
 	mlx_loop(game.mlx_ptr);
 	return (1);
 }
@@ -57,13 +61,13 @@ int	main(int argc, char *argv[])
 int	key_hook(int keycode, t_game *game)
 {
 	if (keycode == W)
-		move(game, 0, -1);
+		move_W(game);
 	else if (keycode == S)
-		move(game, 0, 1);
+		move_S(game);
 	else if (keycode == A)
-		move(game, -1, 0);
+		move_A(game);
 	else if (keycode == D)
-		move(game, 1, 0);
+		move_D(game);
 	else if (keycode == ESC)
 		close_win(game);
 	setting_img(game);
@@ -74,6 +78,71 @@ void	move(t_game *game, int x, int y)
 {
 	game->char_xy->x += x;
 	game->char_xy->y += y;
+}
+
+void	move_W(t_game *game)
+{
+	int	temp_x;
+	int	temp_y;
+
+	temp_x = game->char_xy->x + 0;
+	temp_y = game->char_xy->y - 1;
+	game->img->player = game->img->player_N;
+	printf("temp_x : %d, temp_y : %d\n", temp_x, temp_y);
+	if (game->map->data[temp_y * game->map->row + temp_x] == 1) {
+		move(game, 0, 0);
+		printf("wall ahead\n");
+	}
+	else
+		move(game, 0, -1);
+}
+void	move_A(t_game *game)
+{
+	int	temp_x;
+	int	temp_y;
+
+	temp_x = game->char_xy->x - 1;
+	temp_y = game->char_xy->y + 0;
+	game->img->player = game->img->player_W;
+	printf("temp_x : %d, temp_y : %d\n", temp_x, temp_y);
+	if (game->map->data[temp_y * game->map->row + temp_x] == 1){
+		move(game, 0, 0);
+		printf("wall ahead\n");
+	}
+	else
+		move(game, -1, 0);
+}
+void	move_S(t_game *game)
+{
+	int	temp_x;
+	int	temp_y;
+
+	temp_x = game->char_xy->x + 0;
+	temp_y = game->char_xy->y + 1;
+	game->img->player = game->img->player_S;
+	printf("temp_x : %d, temp_y : %d\n", temp_x, temp_y);
+	if (game->map->data[temp_y * game->map->row + temp_x] == 1){
+		move(game, 0, 0);
+		printf("wall ahead\n");
+	}
+	else
+		move(game, 0, 1);
+}
+void	move_D(t_game *game)
+{
+	int	temp_x;
+	int	temp_y;
+
+	temp_x = game->char_xy->x + 1;
+	temp_y = game->char_xy->y + 0;
+	game->img->player = game->img->player_E;
+	printf("temp_x : %d, temp_y : %d\n", temp_x, temp_y);
+	if (game->map->data[temp_y * game->map->row + temp_x] == 1){
+		move(game, 0, 0);
+		printf("wall ahead\n");
+	}
+	else
+		move(game, 1, 0);
 }
 
 void	close_win(t_game *game)
@@ -165,6 +234,7 @@ void	init_img(t_game *game)
 	game->img->player_N = mlx_xpm_file_to_image(game->mlx_ptr, "./textures/player_N.xpm", &img_width, &img_height);
 	game->img->player_S = mlx_xpm_file_to_image(game->mlx_ptr, "./textures/player_S.xpm", &img_width, &img_height);
 	game->img->player_W = mlx_xpm_file_to_image(game->mlx_ptr, "./textures/player_W.xpm", &img_width, &img_height);
+	game->img->player = game->img->player_S;
 	game->img->tile0 = mlx_xpm_file_to_image(game->mlx_ptr, "./textures/tile00.xpm", &img_width, &img_height);
 	game->img->tile1 = mlx_xpm_file_to_image(game->mlx_ptr, "./textures/tile01.xpm", &img_width, &img_height);
 }
@@ -209,7 +279,7 @@ void	setting_img(t_game *game)
 				if (game->flag->game_start == true)
 					char_xy_init(game, row, col);
 				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->tile0, row * 64, col * 64);
-				mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->player_S, game->char_xy->x * 64, (game->char_xy->y - 1) * 64);
+				// mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->player_S, game->char_xy->x * 64, (game->char_xy->y - 1) * 64);
 			}
 			else if (game->map->data[col * game->map->row + row] == 'E')
 			{
@@ -224,6 +294,7 @@ void	setting_img(t_game *game)
 		}
 		col++;
 	}
+	mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, game->img->player, game->char_xy->x * 64, (game->char_xy->y - 1) * 64);
 }
 
 void	char_xy_init(t_game *game, int row, int col)
