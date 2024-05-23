@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:50:54 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/24 01:06:45 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/24 01:15:24 by hongchanhye      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,14 @@
 #include "csfunc.h"
 #include <stdbool.h>
 
-
 int		key_hook(int keycode, t_game *game);
 void	move(t_game *game, int x, int y);
-void	move_W(t_game *game);
-void	move_A(t_game *game);
-void	move_S(t_game *game);
-void	move_D(t_game *game);
+void	move_w(t_game *game);
+void	move_a(t_game *game);
+void	move_s(t_game *game);
+void	move_d(t_game *game);
 int		close_game(t_game *game);
-static	int	is_ber_file(const char *argv);
+int		is_ber_file(const char *argv);
 void	check_map(char *filename);
 void	read_map(t_game *game, char *filename);
 char	*ft_strdup_without_newline(char *str);
@@ -63,13 +62,13 @@ int	main(int argc, char *argv[])
 int	key_hook(int keycode, t_game *game)
 {
 	if (keycode == W)
-		move_W(game);
+		move_w(game);
 	else if (keycode == S)
-		move_S(game);
+		move_s(game);
 	else if (keycode == A)
-		move_A(game);
+		move_a(game);
 	else if (keycode == D)
-		move_D(game);
+		move_d(game);
 	else if (keycode == ESC)
 		close_game(game);
 	printf("character movement : %d\n", game->char_xy->distance);
@@ -84,7 +83,7 @@ void	move(t_game *game, int x, int y)
 	game->char_xy->distance += ft_abs(x) + ft_abs(y);
 }
 
-void	move_W(t_game *game)
+void	move_w(t_game *game)
 {
 	int	temp_x;
 	int	temp_y;
@@ -105,7 +104,8 @@ void	move_W(t_game *game)
 		move(game, 0, -1);
 	}
 }
-void	move_A(t_game *game)
+
+void	move_a(t_game *game)
 {
 	int	temp_x;
 	int	temp_y;
@@ -126,7 +126,8 @@ void	move_A(t_game *game)
 		move(game, -1, 0);
 	}
 }
-void	move_S(t_game *game)
+
+void	move_s(t_game *game)
 {
 	int	temp_x;
 	int	temp_y;
@@ -148,7 +149,7 @@ void	move_S(t_game *game)
 	}
 }
 
-void	move_D(t_game *game)
+void	move_d(t_game *game)
 {
 	int	temp_x;
 	int	temp_y;
@@ -170,22 +171,12 @@ void	move_D(t_game *game)
 	}
 }
 
-int		close_game(t_game *game)
+int	close_game(t_game *game)
 {
-	// mlx_destroy_image(game->mlx_ptr, game->img->ball);
-	// mlx_destroy_image(game->mlx_ptr, game->img->ladder);
-	// mlx_destroy_image(game->mlx_ptr, game->img->player);
-	// mlx_destroy_image(game->mlx_ptr, game->img->player_E);
-	// mlx_destroy_image(game->mlx_ptr, game->img->player_N);
-	// mlx_destroy_image(game->mlx_ptr, game->img->player_S);
-	// mlx_destroy_image(game->mlx_ptr, game->img->player_W);
-	// mlx_destroy_image(game->mlx_ptr, game->img->tile0);
-	// mlx_destroy_image(game->mlx_ptr, game->img->tile1);
-	// mlx_destroy_window(game->mlx_ptr, game->win_ptr);
 	exit(0);
 }
 
-static	int	is_ber_file(const char *argv)
+int	is_ber_file(const char *argv)
 {
 	char	*string;
 
@@ -197,13 +188,12 @@ static	int	is_ber_file(const char *argv)
 
 void	check_map(char *filename)
 {
-	
 }
 
 void	read_map(t_game *game, char *filename)
 {
-	int  fd;
-	char *line;
+	int		fd;
+	char	*line;
 
 	fd = shell_open(filename, O_RDONLY, 0777);
 	line = get_next_line(fd);
