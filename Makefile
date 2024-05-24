@@ -6,7 +6,7 @@
 #    By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/20 16:33:02 by chanhhon          #+#    #+#              #
-#    Updated: 2024/05/24 20:49:11 by chanhhon         ###   ########.fr        #
+#    Updated: 2024/05/24 20:51:23 by chanhhon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SOURCE		=	./srcs
 all : $(NAME)
 
 $(NAME) : $(OBJS)
+	@echo "creating so_long"
 	@make -C ./Libft
 	@$(CC) $(CFLAGS) $(MLX) -o $(NAME) $(SRCS) ./Libft/libft.a
 	
