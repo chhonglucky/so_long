@@ -6,7 +6,7 @@
 /*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:04:01 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/23 20:30:34 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/24 16:05:40 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	unix_error(char *msg)
 {
 	extern int	errno;
 
+	ft_putstr_fd("Error\n", 2);
 	ft_putstr_fd(msg, STDERR_FILENO);
 	ft_putstr_fd(" : ", STDERR_FILENO);
 	ft_putstr_fd(strerror(errno), STDERR_FILENO);

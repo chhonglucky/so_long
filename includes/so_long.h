@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+        */
+/*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 20:22:42 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/24 01:48:56 by hongchanhye      ###   ########.fr       */
+/*   Updated: 2024/05/24 17:12:29 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 typedef struct s_map {
 	int		row;
 	int		col;
-	int		error;
 	int		coin_cnt;
 	int		player_cnt;
 	int		exit_cnt;
@@ -45,11 +44,6 @@ typedef struct s_img {
 	void	*tile1;
 }				t_img;
 
-typedef struct s_flag {
-	bool	collect_all_coin;
-	bool	game_start;
-}				t_flag;
-
 typedef struct s_char_xy {
 	int	x;
 	int	y;
@@ -63,7 +57,6 @@ typedef struct s_game {
 	t_map		*map;
 	t_img		*img;
 	t_char_xy	*char_xy;
-	t_flag		*flag;
 }				t_game;
 
 
