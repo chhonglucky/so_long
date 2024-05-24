@@ -6,11 +6,11 @@
 /*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:14:23 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/24 19:14:50 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/24 20:37:38 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/so_long.h"
+#include "../includes/so_long.h"
 
 void	init_img(t_game *game)
 {
@@ -19,20 +19,20 @@ void	init_img(t_game *game)
 
 	game->mlx_ptr = mlx_init();
 	game->win_ptr = mlx_new_window(game->mlx_ptr, 63 * game->map->row,
-			63 * game->map->col, "so_long_chanhhon");
+			63 * game->map->col, "./so_long");
 	game->img->ball = mlx_xpm_file_to_image(game->mlx_ptr,
 			"./textures/ball.xpm", &img_width, &img_height);
 	game->img->ladder = mlx_xpm_file_to_image(game->mlx_ptr,
 			"./textures/ladder.xpm", &img_width, &img_height);
-	game->img->player_E = mlx_xpm_file_to_image(game->mlx_ptr,
+	game->img->player_e = mlx_xpm_file_to_image(game->mlx_ptr,
 			"./textures/player_E.xpm", &img_width, &img_height);
-	game->img->player_N = mlx_xpm_file_to_image(game->mlx_ptr,
+	game->img->player_n = mlx_xpm_file_to_image(game->mlx_ptr,
 			"./textures/player_N.xpm", &img_width, &img_height);
-	game->img->player_S = mlx_xpm_file_to_image(game->mlx_ptr,
+	game->img->player_s = mlx_xpm_file_to_image(game->mlx_ptr,
 			"./textures/player_S.xpm", &img_width, &img_height);
-	game->img->player_W = mlx_xpm_file_to_image(game->mlx_ptr,
+	game->img->player_w = mlx_xpm_file_to_image(game->mlx_ptr,
 			"./textures/player_W.xpm", &img_width, &img_height);
-	game->img->player = game->img->player_S;
+	game->img->player = game->img->player_s;
 	game->img->tile0 = mlx_xpm_file_to_image(game->mlx_ptr,
 			"./textures/tile00.xpm", &img_width, &img_height);
 	game->img->tile1 = mlx_xpm_file_to_image(game->mlx_ptr,

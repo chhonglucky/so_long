@@ -6,11 +6,11 @@
 /*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 20:20:56 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/24 19:09:15 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/24 20:39:08 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/so_long.h"
+#include "../includes/so_long.h"
 
 void	move(t_game *game, int x, int y)
 {
@@ -26,7 +26,7 @@ void	move_w(t_game *game)
 
 	temp_x = game->char_xy->x + 0;
 	temp_y = game->char_xy->y - 1;
-	game->img->player = game->img->player_N;
+	game->img->player = game->img->player_n;
 	if (game->map->data2[temp_y][temp_x] == '1')
 		move(game, 0, 0);
 	else
@@ -47,7 +47,7 @@ void	move_a(t_game *game)
 
 	temp_x = game->char_xy->x - 1;
 	temp_y = game->char_xy->y + 0;
-	game->img->player = game->img->player_W;
+	game->img->player = game->img->player_w;
 	if (game->map->data2[temp_y][temp_x] == '1')
 		move(game, 0, 0);
 	else
@@ -68,7 +68,7 @@ void	move_s(t_game *game)
 
 	temp_x = game->char_xy->x + 0;
 	temp_y = game->char_xy->y + 1;
-	game->img->player = game->img->player_S;
+	game->img->player = game->img->player_s;
 	if (game->map->data2[temp_y][temp_x] == '1')
 		move(game, 0, 0);
 	else
@@ -89,7 +89,7 @@ void	move_d(t_game *game)
 
 	temp_x = game->char_xy->x + 1;
 	temp_y = game->char_xy->y + 0;
-	game->img->player = game->img->player_E;
+	game->img->player = game->img->player_e;
 	if (game->map->data2[temp_y][temp_x] == '1')
 		move(game, 0, 0);
 	else

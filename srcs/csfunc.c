@@ -6,11 +6,11 @@
 /*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:04:01 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/24 19:20:00 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/24 19:43:26 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "csfunc.h"
+#include "../includes/csfunc.h"
 
 void	unix_error(char *msg)
 {

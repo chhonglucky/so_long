@@ -6,7 +6,7 @@
 /*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 20:22:42 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/24 19:01:18 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/24 20:36:16 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,48 @@
 # define D					2
 
 # include <stdbool.h>
-#include "./mlx/mlx.h"
-#include "./Libft/ft_printf.h"
-#include "./Libft/libft.h"
-#include "./Libft/get_next_line.h"
-#include "csfunc.h"
+# include "../mlx/mlx.h"
+# include "../Libft/ft_printf.h"
+# include "../Libft/libft.h"
+# include "../Libft/get_next_line.h"
+# include "csfunc.h"
+
+typedef struct s_map {
+	int		row;
+	int		col;
+	int		coin_cnt;
+	int		player_cnt;
+	int		exit_cnt;
+	char	*data;
+	char	**data2;
+}				t_map;
+
+typedef struct s_img {
+	void	*ball;
+	void	*ladder;
+	void	*player_n;
+	void	*player_e;
+	void	*player_s;
+	void	*player_w;
+	void	*player;
+	void	*tile0;
+	void	*tile1;
+}				t_img;
+
+typedef struct s_char_xy {
+	int	x;
+	int	y;
+	int	distance;
+	int	char_coin;
+}				t_char_xy;
+
+typedef struct s_game {
+	void		*mlx_ptr;
+	void		*win_ptr;
+	t_map		*map;
+	t_img		*img;
+	t_char_xy	*char_xy;
+}				t_game;
 
 void	init_struct(t_game *game);
 int		key_hook(int keycode, t_game *game);
@@ -43,7 +80,7 @@ void	check_map_basic(t_game *game, char *filename);
 int		check_component(char *str);
 int		is_rectangle(t_map *map);
 int		is_surronded(t_map *map);
-int 	dfs(int x, int y, char **map, char c);
+int		dfs(int x, int y, char **map, char c);
 int		check_map_dfs(t_game *game);
 void	read_map(t_game *game, char *filename);
 char	**ft_split_size(char *str, int col, int row);
@@ -54,44 +91,5 @@ void	setting_img(t_game *game);
 void	setting_img_item(t_game *game);
 void	check_end(t_game *game);
 void	char_xy_init(t_game *game);
-
-typedef struct s_map {
-	int		row;
-	int		col;
-	int		coin_cnt;
-	int		player_cnt;
-	int		exit_cnt;
-	char	*data;
-	char	**data2;
-}				t_map;
-
-typedef struct s_img {
-	void	*ball;
-	void	*ladder;
-	void	*player_N;
-	void	*player_E;
-	void	*player_S;
-	void	*player_W;
-	void	*player;
-	void	*tile0;
-	void	*tile1;
-}				t_img;
-
-typedef struct s_char_xy {
-	int	x;
-	int	y;
-	int distance;
-	int	char_coin;
-}				t_char_xy;
-
-typedef struct s_game {
-	void		*mlx_ptr;
-	void		*win_ptr;
-	t_map		*map;
-	t_img		*img;
-	t_char_xy	*char_xy;
-}				t_game;
-
-
 
 #endif

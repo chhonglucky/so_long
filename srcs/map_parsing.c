@@ -6,11 +6,11 @@
 /*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 20:20:15 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/24 19:18:36 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/24 19:41:48 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/so_long.h"
+#include "../includes/so_long.h"
 
 void	read_map(t_game *game, char *filename)
 {

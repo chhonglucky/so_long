@@ -6,11 +6,11 @@
 /*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:10:08 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/24 19:12:51 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/24 20:47:30 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/so_long.h"
+#include "../includes/so_long.h"
 
 void	check_map_basic(t_game *game, char *filename)
 {
@@ -64,7 +64,7 @@ int	check_component(char *str)
 
 int	is_rectangle(t_map *map)
 {
-	if (map->row * map->col != ft_strlen(map->data))
+	if (map->row * map->col != (int)ft_strlen(map->data))
 		return (false);
 	return (true);
 }

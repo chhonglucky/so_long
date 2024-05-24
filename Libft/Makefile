@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hongchanhyeong <hongchanhyeong@student.    +#+  +:+       +#+         #
+#    By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/20 16:33:02 by chanhhon          #+#    #+#              #
-#    Updated: 2024/05/24 01:17:26 by hongchanhye      ###   ########.fr        #
+#    Updated: 2024/05/24 20:49:32 by chanhhon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,22 +34,22 @@ all :	make_mandatory
 bonus : make_bonus
 
 make_mandatory : $(OBJS)
-	ar -rcs $(NAME) $^
-	touch $@
+	@ar -rcs $(NAME) $^
+	@touch $@
 
 make_bonus : $(OBJS_BONUS) $(OBJS)
-	ar -rcs $(NAME) $^
-	touch $@
+	@ar -rcs $(NAME) $^
+	@touch $@
 
 %.o :	%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean :
-	rm -f $(OBJS) $(OBJS_BONUS)
-	rm -f make_bonus make_mandatory
+	@rm -f $(OBJS) $(OBJS_BONUS)
+	@rm -f make_bonus make_mandatory
 
 fclean :	clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re :
 	$(MAKE) fclean

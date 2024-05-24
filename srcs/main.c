@@ -6,11 +6,11 @@
 /*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 20:50:54 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/24 19:18:31 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/24 20:39:23 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/so_long.h"
+#include "../includes/so_long.h"
 
 int	main(int argc, char *argv[])
 {
@@ -42,10 +42,10 @@ void	init_struct(t_game *game)
 	game->img->ball = 0;
 	game->img->ladder = 0;
 	game->img->player = 0;
-	game->img->player_E = 0;
-	game->img->player_S = 0;
-	game->img->player_N = 0;
-	game->img->player_W = 0;
+	game->img->player_e = 0;
+	game->img->player_s = 0;
+	game->img->player_n = 0;
+	game->img->player_w = 0;
 	game->img->tile0 = 0;
 	game->img->tile1 = 0;
 	game->map->data2 = 0;

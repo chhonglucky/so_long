@@ -6,11 +6,11 @@
 /*   By: chanhhon <chanhhon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:11:05 by chanhhon          #+#    #+#             */
-/*   Updated: 2024/05/24 19:11:37 by chanhhon         ###   ########.fr       */
+/*   Updated: 2024/05/24 19:41:23 by chanhhon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/so_long.h"
+#include "../includes/so_long.h"
 
 int	dfs(int x, int y, char **map, char c)
 {
